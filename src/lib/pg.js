@@ -1,5 +1,6 @@
 import pg from "pg";
 import { config } from "../common/config/index.js";
+import { ResData } from "../common/resData.js";
 
 const Pool = pg.Pool;
 
@@ -19,7 +20,10 @@ export class Postgres {
         rows: [row],
       } = await clien.query(SQL, args);
       return row;
-    } finally {
+    }catch(err){
+      throw new ResData(err.message || "Erron on postgresql", 500, null, err)
+    }
+     finally {
       clien.release();
     }
   }
@@ -29,6 +33,9 @@ export class Postgres {
     try {
       const { rows } = await clien.query(SQL, args);
       return rows;
+    }
+    catch(err){
+      throw new ResData(err.message || "Erron on postgresql", 500, null, err)
     } finally {
       clien.release();
     }

@@ -12,7 +12,7 @@ export class UserRepository extends Postgres {
   }
   async createUser(dto) {
     return await this.fetch(`INSERT INTO users(login, password, role,first_name, last_name, brand_id)
-    VALUES ()`, ['test', 'test', 'student', 'test', 'test', 1]);
+    VALUES ($1,$2,$3,$4,$5,$6) RETURNING *;`, dto.login, dto.password, dto.role, dto.first_name, dto.last_name, dto.brand_id);
   }
   async update(dto, id) {
     return await this.fetch(`UPDATE users SET name = $1,address = $2,latitude = $3,longitude = $4,phone = $5,brand_id = $6 WHERE id = $7 RETURNING *;`, dto.name, dto.address,dto.latitude,dto.longitude,dto.phone,dto.brand_id, id);

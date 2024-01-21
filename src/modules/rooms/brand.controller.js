@@ -1,5 +1,6 @@
 import { ResData } from "../../common/resData.js";
-import { userSchema } from "./validation/user.schema.js"
+import {brandSchema} from "./validation/user.schema.js";
+
 
 export class UserController {
   #userService;
@@ -42,15 +43,14 @@ export class UserController {
     }
   }
 
-  async createUser(req, res) {
+  async createBrand(req, res) {
     try {
-      const validateResult = userSchema.validate(req.body);
+      const validateResult = brandSchema.validate(req.body);
       if(validateResult.error){
-        throw new ResData(validateResult.error.message || "error on validation", 400, null, validateResult.error);
+        throw new ResData(validateResult.error.message || "error on validation", 500, null, validateResult.error);
       }
       const resData = await this.#userService.create(req.body);
       res.status(resData.statusCode || 200).json(resData);
-
 
     } catch (error) {
       const resData = new ResData(
@@ -63,7 +63,7 @@ export class UserController {
     }
   }
 
-  async updateUser(req, res) {
+  async updateBrand(req, res) {
     try {
       const brandId = req.params.id;
       const validateResult = brandSchema.validate(req.body);
@@ -84,7 +84,7 @@ export class UserController {
     }
   }
 
-  async deleteUser(req, res) {
+  async deleteBrand(req, res) {
     try {
       const brandId = req.params.id;
       const resData = await this.#userService.delete(brandId); 
