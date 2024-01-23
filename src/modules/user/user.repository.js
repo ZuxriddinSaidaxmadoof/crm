@@ -2,7 +2,15 @@ import { Postgres } from "../../lib/pg.js";
 
 export class UserRepository extends Postgres {
   async findAll() {
-    return await this.fetchAll("select * from users");
+    return await this.fetchAll(`
+    select jsonb_agg(row_to_json(u)) as students, 
+(
+    select jsonb_agg(row_to_json(t))
+    from users as t
+    where t.role = 'teacher'
+) as teachers
+from users as u where role = 'student';
+    `);
   }
   async findOneByLogin(login) {
     return await this.fetch("select * from users where login = $1", login);

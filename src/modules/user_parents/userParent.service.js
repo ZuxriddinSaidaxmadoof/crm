@@ -1,5 +1,5 @@
 import { ResData } from "../../common/resData.js";
-import { UserRepository } from "./brand.repository.js";
+import { UserRepository } from "./userParent.repository.js";
 import { BrandEntity } from "./entity/user.entity.js"
 
 export class UserService {
@@ -11,7 +11,7 @@ export class UserService {
   async getAll() {
     const foundAll = await this.#repository.findAll();
 
-    const resData = new ResData("All rooms", 200, foundAll);
+    const resData = new ResData("All user-parents", 200, foundAll);
 
     return resData;
   }
@@ -19,9 +19,9 @@ export class UserService {
   async getOne(id) {
     const foundAll = await this.#repository.findOneById(id);
 
-    const resData = new ResData("One room by id", 200, foundAll);
+    const resData = new ResData("One user-parent by id", 200, foundAll);
     if(!resData.data){
-      return new ResData("room not found", 404, null, null);
+      return new ResData("user-parent not found", 404, null, null);
     }
 
     return resData;
@@ -32,7 +32,7 @@ export class UserService {
     const newBrand = new BrandEntity(dto);
 // console.log(newBrand);
     const foundAll = await this.#repository.create(newBrand);
-    const resData = new ResData("room created", 201, foundAll);
+    const resData = new ResData("user-parent created", 201, foundAll);
 
     return resData;
   }
@@ -40,11 +40,11 @@ export class UserService {
   async update(dto, id) {
     const check = await this.#repository.findOneById(id);
     if(!check){
-      throw new ResData("room not found", 404, null, check);
+      throw new ResData("user-parent not found", 404, null, check);
     }
     const newBrand = new BrandEntity(dto);
     const foundAll = await this.#repository.update(newBrand, id);
-    const resData = new ResData("room updated", 201, foundAll);
+    const resData = new ResData("user-parent updated", 201, foundAll);
 
     return resData;
   }
@@ -52,10 +52,10 @@ export class UserService {
   async delete(id) {
     const check = await this.#repository.findOneById(id);
     if(!check){
-      throw new ResData("room not found", 404, null, check);
+      throw new ResData("user-parent not found", 404, null, check);
     }
     const foundAll = await this.#repository.delete(id);
-    const resData = new ResData("room deleted", 203, foundAll);
+    const resData = new ResData("user-parent deleted", 203, foundAll);
     return resData;
   }
 }

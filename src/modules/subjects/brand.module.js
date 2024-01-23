@@ -8,6 +8,7 @@ const userService = new UserService();
 const userController = new UserController(userService);
 
 router.get("/:id", (req, res) => {
+  req.params.id;
   userController.getOneById(req, res);
 });
 router.get("/", (req, res) => {

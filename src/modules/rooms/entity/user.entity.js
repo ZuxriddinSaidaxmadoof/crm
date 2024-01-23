@@ -1,6 +1,9 @@
 export class BrandEntity {
   constructor(dto) {
+    this.number = dto.number;
     this.name = dto.name;
-    this.is_public = dto.isPublic || true;
+    this.floor = dto.floor;
+    this.capacity = dto.capacity;
+    this.school_id = dto.schoolId;
   }
 }

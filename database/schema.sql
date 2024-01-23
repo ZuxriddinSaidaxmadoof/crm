@@ -56,6 +56,14 @@ INSERT INTO schools(name,latitude,brand_id) VALUES('test_school', 2, 1);
 INSERT INTO users(login, password, role,first_name, last_name, brand_id)
 VALUES (test, test, student, test, test, 1);
 
+select jsonb_agg(row_to_json(u)) as students, 
+(
+    select jsonb_agg(row_to_json(t))
+    from users as t
+    where t.role = 'teacher'
+) as teachers
+from users as u where role = 'student';
+
 
         create TABLE user_parents
         (

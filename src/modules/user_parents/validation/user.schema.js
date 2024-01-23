@@ -2,8 +2,6 @@
 import Joi from "joi";
 
 export const brandSchema = Joi.object({
-  name: Joi.string().required(),
-  isPublic: Joi.boolean()
+  childId: Joi.number().required(),
+  parentId: Joi.number().required()
 });
-
-

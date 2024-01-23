@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { UserController } from "./brand.controller.js";
-import { UserService } from "./brand.service.js";
+import { UserController } from "./userParent.controller.js";
+import { UserService } from "./userParent.service.js";
 
 const router = Router();
 
