@@ -1,6 +1,6 @@
 
 CREATE TYPE role_type AS ENUM
-('admin', 'parent', 'student', 'teacher');d
+('admin', 'parent', 'student', 'teacher');
 CREATE TYPE sex_type AS ENUM
 ('male', 'female');
 
