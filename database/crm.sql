@@ -10,11 +10,14 @@ CREATE TABLE students(
     first_name VARCHAR(150) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
     number int [] DEFAULT NULL,
-    parent_id INT DEFAULT NULL,
-    about VARCHAR(460),
+    about VARCHAR(460) DEFAULT null,
+    -- file_id INT DEFAULT NULL,
     created_at DATE DEFAULT now(),
-    constraint fk_parent_id foreign key(parent_id) references users(id) 
+    -- constraint fk_file_id foreign key(file_id) references files(id)
 );
+
+INSERT INTO students(first_name, last_name, number,about)
+VALUES ('Zuxriddin', 'Saidaxmadov', ARRAY[1, 2, 3, 4, 5], 'first');
 
 // STUDENT_COURSES - Studentning barcha oqiyotgan kurslari
 
@@ -34,9 +37,7 @@ CREATE TABLE users(
     last_name VARCHAR(150) NOT NULL,
     number int DEFAULT NULL,
     role role_type NOT NULL DEFAULT 'user',
-    file_id INT DEFAULT NULL,
-    password TEXT NOT NULL,
-    constraint fk_file_id foreign key(file_id) references files(id) 
+    password TEXT NOT NULL 
 )
 
 

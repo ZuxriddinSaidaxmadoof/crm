@@ -1,6 +1,6 @@
 import { ResData } from "../../common/resData.js";
-import { UserRepository } from "./brand.repository.js";
-import { BrandEntity } from "./entity/user.entity.js"
+import { UserRepository } from "./user.repository.js";
+import { userEntity, adminEntity } from "./entity/user.entity.js"
 
 export class UserService {
   #repository;
@@ -11,7 +11,7 @@ export class UserService {
   async getAll() {
     const foundAll = await this.#repository.findAll();
 
-    const resData = new ResData("All brands", 200, foundAll);
+    const resData = new ResData("All users", 200, foundAll);
 
     return resData;
   }
@@ -19,9 +19,9 @@ export class UserService {
   async getOne(id) {
     const foundAll = await this.#repository.findOneById(id);
 
-    const resData = new ResData("One brand by id", 200, foundAll);
+    const resData = new ResData("One user by id", 200, foundAll);
     if(!resData.data){
-      return new ResData("Brand not found", 404, null, null);
+      return new ResData("user not found", 404, null, null);
     }
 
     return resData;
@@ -29,10 +29,10 @@ export class UserService {
 
   async create(dto) {
 
-    const newBrand = new BrandEntity(dto);
+    const newBrand = new userEntity(dto);
 // console.log(newBrand);
     const foundAll = await this.#repository.create(newBrand);
-    const resData = new ResData("Brand created", 201, foundAll);
+    const resData = new ResData("user created", 201, foundAll);
 
     return resData;
   }
@@ -40,11 +40,11 @@ export class UserService {
   async update(dto, id) {
     const check = await this.#repository.findOneById(id);
     if(!check){
-      throw new ResData("Brand not found", 404, null, check);
+      throw new ResData("user not found", 404, null, check);
     }
-    const newBrand = new BrandEntity(dto);
+    const newBrand = new userEntity(dto);
     const foundAll = await this.#repository.update(newBrand, id);
-    const resData = new ResData("Brand updated", 201, foundAll);
+    const resData = new ResData("user updated", 201, foundAll);
 
     return resData;
   }

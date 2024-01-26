@@ -1,5 +1,5 @@
 import { ResData } from "../../common/resData.js";
-import {brandSchema} from "./validation/user.schema.js";
+import {userSchema} from "./validation/user.schema.js";
 
 
 export class UserController {
@@ -45,7 +45,7 @@ export class UserController {
 
   async createBrand(req, res) {
     try {
-      const validateResult = brandSchema.validate(req.body);
+      const validateResult = userSchema.validate(req.body);
       if(validateResult.error){
         throw new ResData(validateResult.error.message || "error on validation", 500, null, validateResult.error);
       }
