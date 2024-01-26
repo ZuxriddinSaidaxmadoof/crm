@@ -56,8 +56,8 @@ insert into files (original_name, path, size, mine_type) values ('Cassie', '/c/d
 
 // EMPLOYERS - Oquv markaz xodimlari
 
-CREATE TABLE employees (
-    id INT PRIMARY KEY,
+CREATE TABLE employers (
+    id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(100),
@@ -76,7 +76,7 @@ CREATE TABLE courses (
     start_date DATE,
     end_date DATE,
     instructor INT NOT NULL,
-    constraint fk_instructor_id foreign key(instructor) references employees(id) 
+    constraint fk_instructor_id foreign key(instructor) references employers(id) 
 );
 
 
