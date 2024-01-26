@@ -58,11 +58,13 @@ insert into files (original_name, path, size, mine_type) values ('Cassie', '/c/d
 
 CREATE TABLE employees (
     id INT PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    Email VARCHAR(100),
-    Phone VARCHAR(20),
-    Position VARCHAR(50)
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    position VARCHAR(50)
+    file_id INT DEFAULT NULL,
+    constraint fk_file_id foreign key(file_id) references files(id) 
 );
 
 // COURSES - Oquv markazdagi barcha kurslar
