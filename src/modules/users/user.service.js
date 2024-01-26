@@ -8,6 +8,7 @@ export class UserService {
     this.#repository = new UserRepository();
   }
 
+// GET ALL USER
   async getAll() {
     const foundAll = await this.#repository.findAll();
 
@@ -16,6 +17,7 @@ export class UserService {
     return resData;
   }
 
+// GET ONE USER BY ID
   async getOne(id) {
     const foundAll = await this.#repository.findOneById(id);
 
@@ -27,16 +29,28 @@ export class UserService {
     return resData;
   }
 
+
+// CREATE USER
   async create(dto) {
 
     const newBrand = new userEntity(dto);
-// console.log(newBrand);
     const foundAll = await this.#repository.create(newBrand);
     const resData = new ResData("user created", 201, foundAll);
 
     return resData;
   }
 
+// CREATE ADMIN
+  async createAdmin(dto) {
+
+    const newBrand = new adminEntity(dto);
+    const foundAll = await this.#repository.create(newBrand);
+    const resData = new ResData("user created", 201, foundAll);
+
+    return resData;
+  }
+
+// UPDATE USER
   async update(dto, id) {
     const check = await this.#repository.findOneById(id);
     if(!check){
@@ -49,6 +63,7 @@ export class UserService {
     return resData;
   }
 
+// DELETE USER
   async delete(id) {
     const check = await this.#repository.findOneById(id);
     if(!check){

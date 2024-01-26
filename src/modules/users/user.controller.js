@@ -9,6 +9,7 @@ export class UserController {
   }
 
   async getAll(req, res) {
+    
     try {
       const resData = await this.#userService.getAll();
 
@@ -63,10 +64,30 @@ export class UserController {
     }
   }
 
+  async createAdmin(req, res) {
+    try {
+      const validateResult = userSchema.validate(req.body);
+      if(validateResult.error){
+        throw new ResData(validateResult.error.message || "error on validation", 500, null, validateResult.error);
+      }
+      const resData = await this.#userService.createAdmin(req.body);
+      res.status(resData.statusCode || 200).json(resData);
+
+    } catch (error) {
+      const resData = new ResData(
+        error.message,
+        error.statusCode || 500,
+        null,
+        error
+      );
+      res.status(resData.statusCode).json(resData);
+    }
+  }
+
   async updateBrand(req, res) {
     try {
       const brandId = req.params.id;
-      const validateResult = brandSchema.validate(req.body);
+      const validateResult = userSchema.validate(req.body);
       if(validateResult.error){
         throw new ResData(validateResult.error.message || "error on validation", 500, null, validateResult.error);
       }

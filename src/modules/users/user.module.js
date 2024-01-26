@@ -17,6 +17,9 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   userController.createBrand(req, res);
 });
+router.post("/admin", (req, res) => {
+  userController.createAdmin(req, res);
+});
 router.put("/:id", (req, res) => {
   userController.updateBrand(req, res);
 });

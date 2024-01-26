@@ -35,11 +35,13 @@ CREATE TABLE users(
     id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(150) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
-    number int DEFAULT NULL,
-    role role_type NOT NULL DEFAULT 'user',
-    password TEXT NOT NULL 
-)
+    number int NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role role_type NOT NULL DEFAULT 'user'
+);
 
+INSERT INTO users(first_name, last_name, number,password, role)
+VALUES ('Zuxriddin', 'Saidaxmadov', 99999, 'test', 'user');
 
 // FILES - studentlar va employerslar uchun profil rasmi
 
