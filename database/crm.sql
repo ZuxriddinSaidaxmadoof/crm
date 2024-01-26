@@ -65,7 +65,7 @@ CREATE TABLE employers (
     last_name VARCHAR(50),
     email VARCHAR(100),
     phone VARCHAR(20),
-    position VARCHAR(50)
+    position VARCHAR(50),
     file_id INT DEFAULT NULL,
     constraint fk_file_id foreign key(file_id) references files(id) 
 );
