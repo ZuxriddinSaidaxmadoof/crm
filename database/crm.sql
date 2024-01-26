@@ -34,7 +34,9 @@ CREATE TABLE users(
     last_name VARCHAR(150) NOT NULL,
     number int DEFAULT NULL,
     role role_type NOT NULL DEFAULT 'user',
-    password TEXT
+    file_id INT DEFAULT NULL,
+    password TEXT NOT NULL,
+    constraint fk_file_id foreign key(file_id) references files(id) 
 )
 
 
