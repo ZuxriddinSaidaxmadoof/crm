@@ -4,5 +4,6 @@ export class BrandEntity {
     this.last_name = dto.lastName;
     this.number = dto.number;
     this.about = dto.about;
+    this.file_id = dto.fileId;
   }
 }
