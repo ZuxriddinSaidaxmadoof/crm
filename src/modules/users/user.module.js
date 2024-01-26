@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { UserController } from "./brand.controller.js";
-import { UserService } from "./brand.service.js";
+import { UserController } from "./user.controller.js";
+import { UserService } from "./user.service.js";
 
 const router = Router();
 
@@ -16,6 +16,9 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
   userController.createBrand(req, res);
+});
+router.post("/admin", (req, res) => {
+  userController.createAdmin(req, res);
 });
 router.put("/:id", (req, res) => {
   userController.updateBrand(req, res);
