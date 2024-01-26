@@ -9,7 +9,6 @@ const router = Router();
 router.use("/brand", brand.router);
 router.use("/student", students.router);
 router.use("/user", user.router);
-
 router.use("/file", file.router)
 
 
