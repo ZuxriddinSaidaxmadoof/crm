@@ -5,3 +5,11 @@ export class UserNotFoundException extends Error {
     this.statusCode = 404;
   }
 }
+
+export class IncorrectPasswordException extends Error {
+  constructor() {
+    super("incorrect password");
+
+    this.statusCode = 400;
+  }
+}

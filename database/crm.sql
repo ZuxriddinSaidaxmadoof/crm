@@ -11,10 +11,18 @@ CREATE TABLE students(
     last_name VARCHAR(150) NOT NULL,
     number int [] DEFAULT NULL,
     about VARCHAR(460) DEFAULT null,
-    -- file_id INT DEFAULT NULL,
+    file_id INT DEFAULT NULL,
     created_at DATE DEFAULT now(),
-    -- constraint fk_file_id foreign key(file_id) references files(id)
+    constraint fk_file_id foreign key(file_id) references files(id)
 );
+
+select s.*,
+    (select row_to_json(f)
+    
+    from files as f
+    where f.id = s.file_id)
+as file
+from students as s;
 
 INSERT INTO students(first_name, last_name, number,about)
 VALUES ('Zuxriddin', 'Saidaxmadov', ARRAY[1, 2, 3, 4, 5], 'first');
@@ -50,7 +58,7 @@ id BIGSERIAL PRIMARY KEY,
 original_name VARCHAR(80) NOT NULL,
 path VARCHAR(250) NOT NULL,
 size INT NOT NULL,
-mime_type VARCHAR(80) NOT NULL,
+mine_type VARCHAR(80) NOT NULL,
 date DATE DEFAULT CURRENT_DATE
 );
 
@@ -81,6 +89,38 @@ CREATE TABLE courses (
     instructor INT NOT NULL,
     constraint fk_instructor_id foreign key(instructor) references employers(id) 
 );
+
+/////////////////////////////////////////////////////////////END//////////////////////////////////////////////
+
+
+
+
+CREATE TABLE student_history(
+ id int not null,
+ name varchar(128),
+ is_public boolean
+);
+
+
+CREATE FUNCTION fr_insert_group() 
+   RETURNS TRIGGER 
+   LANGUAGE PLPGSQL
+AS $$
+BEGIN
+   insert into brand_history(id, name)VALUES(new.id, new.name);
+END;
+$$;
+
+CREATE TRIGGER rg_brand 
+   AFTER INSERT
+   ON brands
+   FOR EACH ROW 
+       EXECUTE PROCEDURE fr_insert_group();
+
+
+   insert into brands(name)VALUES('new one');
+
+DROP TRIGGER fr_insert_group;
 
 
 

@@ -1,6 +1,7 @@
 import { ResData } from "../../common/resData.js";
 import { UserRepository } from "./user.repository.js";
 import { BrandEntity } from "./entity/user.entity.js"
+import { FileNotFoundException, UserNotFoundException } from "./exception/user.exception.js"
 
 export class UserService {
   #repository;
@@ -30,18 +31,20 @@ export class UserService {
 
     const resData = new ResData("One student by id", 200, foundAll);
     if(!resData.data){
-      return new ResData("Student not found", 404, null, null);
+      throw new UserNotFoundException();
     }
 
     return resData;
   }
 
   async create(dto) {
-
+    const foundOne = await this.#repository.findOneFileById(dto.fileId);
+    if(!foundOne){
+      throw new FileNotFoundException();
+    }
+    
     const newBrand = new BrandEntity(dto);
-console.log("entity", newBrand);
     const foundAll = await this.#repository.create(newBrand);
-console.log("new one", foundAll);
     const resData = new ResData("Student created", 201, foundAll);
 
     return resData;
@@ -49,8 +52,13 @@ console.log("new one", foundAll);
 
   async update(dto, id) {
     const check = await this.#repository.findOneById(id);
+    const foundOne = await this.#repository.findOneFileById(dto.fileId);
+
     if(!check){
-      throw new ResData("Student not found", 404, null, check);
+      throw new UserNotFoundException();
+    }
+    if(!foundOne){
+      throw new FileNotFoundException();
     }
     const newBrand = new BrandEntity(dto);
     const foundAll = await this.#repository.update(newBrand, id);
@@ -62,10 +70,10 @@ console.log("new one", foundAll);
   async delete(id) {
     const check = await this.#repository.findOneById(id);
     if(!check){
-      throw new ResData("Brand not found", 404, null, check);
+      throw new UserNotFoundException();
     }
     const foundAll = await this.#repository.delete(id);
-    const resData = new ResData("Brand deleted", 203, foundAll);
+    const resData = new ResData("Student deleted", 203, foundAll);
     return resData;
   }
 }

@@ -6,4 +6,5 @@ export const userSchema = Joi.object({
   lastName: Joi.string().required(),
   number: Joi.array(),
   about: Joi.string(),
+  fileId: Joi.number(),
 });
