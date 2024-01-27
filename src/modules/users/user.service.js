@@ -1,6 +1,8 @@
 import { ResData } from "../../common/resData.js";
 import { UserRepository } from "./user.repository.js";
 import { userEntity, adminEntity } from "./entity/user.entity.js"
+import { UserNotFoundException, IncorrectPasswordException } from "./exception//user.exception.js";
+import { generateToken } from "../../lib/jwt.js"
 
 export class UserService {
   #repository;
@@ -30,7 +32,7 @@ export class UserService {
   }
 
 
-// CREATE USER
+// REGISTER USER
   async create(dto) {
 
     const newBrand = new userEntity(dto);
@@ -40,18 +42,37 @@ export class UserService {
     return resData;
   }
 
+// LOGIN USER
+  async login(dto, req,res) {
+
+    const findUser = await this.#repository.findOneByPhone(dto.number);
+console.log(findUser);
+    if(!findUser){
+      throw new UserNotFoundException();
+    }
+    if(!(dto.password === findUser.password)){
+      throw new IncorrectPasswordException();
+    }
+
+    
+    const token = generateToken(findUser);
+    res.setHeader("token", token);
+    const resData = new ResData("Successfully login", 200, {user: findUser, token: token});
+    return resData;
+  }
+
 // CREATE ADMIN
   async createAdmin(dto) {
 
     const newBrand = new adminEntity(dto);
     const foundAll = await this.#repository.create(newBrand);
     const resData = new ResData("user created", 201, foundAll);
-
     return resData;
   }
 
 // UPDATE USER
   async update(dto, id) {
+    
     const check = await this.#repository.findOneById(id);
     if(!check){
       throw new ResData("user not found", 404, null, check);

@@ -11,6 +11,9 @@ export class UserRepository extends Postgres {
   async findOneById(id) {
     return await this.fetch("select * from users where id = $1", id);
   }
+  async findOneByPhone(id) {
+    return await this.fetch("select * from users where number = $1", id);
+  }
   async create(dto) {
     return await this.fetch(`
     INSERT INTO users(first_name, last_name, number,password, role)

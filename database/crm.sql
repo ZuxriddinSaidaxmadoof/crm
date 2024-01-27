@@ -16,6 +16,14 @@ CREATE TABLE students(
     constraint fk_file_id foreign key(file_id) references files(id)
 );
 
+select s.*,
+    (select row_to_json(f)
+    
+    from files as f
+    where f.id = s.file_id)
+as file
+from students as s;
+
 INSERT INTO students(first_name, last_name, number,about)
 VALUES ('Zuxriddin', 'Saidaxmadov', ARRAY[1, 2, 3, 4, 5], 'first');
 

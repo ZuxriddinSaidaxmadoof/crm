@@ -1,5 +1,5 @@
 import { ResData } from "../../common/resData.js";
-import {userSchema} from "./validation/user.schema.js";
+import {userSchema, loginSchema} from "./validation/user.schema.js";
 
 
 export class UserController {
@@ -71,6 +71,27 @@ export class UserController {
         throw new ResData(validateResult.error.message || "error on validation", 500, null, validateResult.error);
       }
       const resData = await this.#userService.createAdmin(req.body);
+      res.status(resData.statusCode || 200).json(resData);
+
+    } catch (error) {
+      const resData = new ResData(
+        error.message,
+        error.statusCode || 500,
+        null,
+        error
+      );
+      res.status(resData.statusCode).json(resData);
+    }
+  }
+
+
+  async login(req, res) {
+    try {
+      const validateResult = loginSchema.validate(req.body);
+      if(validateResult.error){
+        throw new ResData(validateResult.error.message || "error on validation", 400, null, validateResult.error);
+      }
+      const resData = await this.#userService.login(req.body, req,res);
       res.status(resData.statusCode || 200).json(resData);
 
     } catch (error) {

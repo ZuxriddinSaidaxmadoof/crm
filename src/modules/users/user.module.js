@@ -14,9 +14,13 @@ router.get("/:id", (req, res) => {
 router.get("/", (req, res) => {
   userController.getAll(req, res);
 });
-router.post("/", (req, res) => {
+router.post("/register", (req, res) => {
   userController.createBrand(req, res);
 });
+router.post("/login", (req, res) => {
+  userController.login(req, res);
+});
+
 router.post("/admin", (req, res) => {
   userController.createAdmin(req, res);
 });
@@ -26,4 +30,5 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   userController.deleteBrand(req, res);
 });
+
 export default { router };
