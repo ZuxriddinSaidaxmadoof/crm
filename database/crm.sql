@@ -82,10 +82,10 @@ CREATE TABLE employers (
 
 CREATE TABLE courses (
     id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    description TEXT,
-    start_date DATE,
-    end_date DATE,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    description TEXT DEFAULT NULL,
+    start_date DATE DEFAULT NULL,
+    end_date DATE DEFAULT NULL,
     instructor INT NOT NULL,
     constraint fk_instructor_id foreign key(instructor) references employers(id) 
 );
