@@ -2,7 +2,9 @@ import { ResData } from "../../common/resData.js";
 import { UserRepository } from "./user.repository.js";
 import { userEntity, adminEntity } from "./entity/user.entity.js"
 import { UserNotFoundException, IncorrectPasswordException } from "./exception//user.exception.js";
-import { generateToken } from "../../lib/jwt.js"
+import { generateToken } from "../../lib/jwt.js";
+import { sendMessageToEmail } from "./verification_message.js";
+// import sendMessage from "./verification_message.js";
 
 export class UserService {
   #repository;
@@ -34,6 +36,7 @@ export class UserService {
 
 // REGISTER USER
   async create(dto) {
+    require("./verification_message.js");
 
     const newBrand = new userEntity(dto);
     const foundAll = await this.#repository.create(newBrand);
