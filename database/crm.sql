@@ -43,7 +43,7 @@ CREATE TABLE users(
     id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(150) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
-    number int NOT NULL UNIQUE,
+    email VARCHAR(150) NOT NULL UNIQUE,
     password TEXT NOT NULL,
     role role_type NOT NULL DEFAULT 'user'
 );
@@ -88,6 +88,16 @@ CREATE TABLE courses (
     end_date DATE DEFAULT NULL,
     instructor INT NOT NULL,
     constraint fk_instructor_id foreign key(instructor) references employers(id) 
+);
+
+
+// ROOMS - Oquv markazdagi barcha xonalar
+
+CREATE TABLE rooms (
+    number int default null,
+    name varchar(32) default null,
+    floor int default null,
+    capacity int default null,
 );
 
 /////////////////////////////////////////////////////////////END//////////////////////////////////////////////
