@@ -1,11 +1,14 @@
 import { ResData } from "../../common/resData.js";
+import { FileNotFoundException } from "../files/exception/file.exception.js";
 import { EmployersException } from "./exception/employers.exception.js";
 import { EmployersSchema } from "./validation/employers.schema.js";
 
 export class EmployersController {
   #employersService;
-  constructor(employersService) {
+  #fileService;
+  constructor(employersService, fileService) {
     this.#employersService = employersService;
+    this.#fileService = fileService;
   }
 
   async getAll(req, res) {
@@ -44,6 +47,14 @@ export class EmployersController {
         throw new EmployersException(validated.error.message);
       }
 
+      const { data: checkFile } = await this.#fileService.getOneById(
+        dto.fileId
+      );
+
+      if (!checkFile) {
+        throw new FileNotFoundException();
+      }
+
       const resData = await this.#employersService.create(dto);
 
       res.status(resData.statusCode).json(resData);
@@ -73,6 +84,14 @@ export class EmployersController {
 
       if (validated.error) {
         throw new EmployersException(validated.error.message);
+      }
+
+      const { data: checkFile } = await this.#fileService.getOneById(
+        data.file_id
+      );
+
+      if (!checkFile) {
+        throw new FileNotFoundException();
       }
 
       const resData = await this.#employersService.update(data);
