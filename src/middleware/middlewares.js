@@ -56,7 +56,7 @@ export class AuthorizationMiddleware {
     }
   }
 
-  async checkAdminUser(req, res, next) {
+  async checkUserRole(req, res, next) {
     try {
       const currentUser = req.currentUser;
 
