@@ -1,11 +1,14 @@
 import { ResData } from "../../common/resData.js";
 import { CoursesException } from "./exception/courses.exception.js";
 import { coursesSchema } from "./validation/courses.schema.js";
+import { EmployersNotFoundException } from "../employers/exception/employers.exception.js";
 
 export class CoursesController {
   #coursesService;
-  constructor(coursesService) {
+  #employersService;
+  constructor(coursesService, employersService) {
     this.#coursesService = coursesService;
+    this.#employersService = employersService;
   }
 
   async getAll(req, res) {
@@ -44,6 +47,12 @@ export class CoursesController {
         throw new CoursesException(validate.error.message);
       }
 
+      const {data: checkEmployers} = await this.#employersService.getOneById(dto.instructor);
+
+      if (!checkEmployers) {
+        throw new EmployersNotFoundException()
+      }
+
       const resData = await this.#coursesService.create(dto);
 
       res.status(resData.statusCode).json(resData);
@@ -72,6 +81,12 @@ export class CoursesController {
 
       if (validate.error) {
         throw new CoursesException(validate.error.message);
+      }
+
+      const {data: checkEmployers} = await this.#employersService.getOneById(Number(data.instructor));
+
+      if (!checkEmployers) {
+        throw new EmployersNotFoundException()
       }
 
       const resData = await this.#coursesService.update(data);
