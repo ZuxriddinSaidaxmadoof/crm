@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { CoursesService } from "./courses.service.js";
 import { CoursesController } from "./courses.controller.js";
+import { EmployersService } from './../employers/employers.service.js';
 
 const router = Router();
 
 const coursesService = new CoursesService();
-const coursesController = new CoursesController(coursesService);
+const employersService = new EmployersService()
+const coursesController = new CoursesController(coursesService, employersService);
 
 router.get("/", (req, res) => {
   coursesController.getAll(req, res);
