@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { EmployersService } from "./employers.service.js";
 import { EmployersController } from "./employers.controller.js";
+import { FileService } from './../files/files.service.js';
 
 const router = Router();
 
-const employersService = new EmployersService()
-const employersController = new EmployersController(employersService)
+const employersService = new EmployersService();
+const fileService = new FileService()
+const employersController = new EmployersController(employersService, fileService);
 
 router.get("/", (req, res) => {
   employersController.getAll(req, res);
