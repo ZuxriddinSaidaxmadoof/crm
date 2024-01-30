@@ -54,6 +54,7 @@ export class UserController {
       res.status(resData.statusCode || 200).json(resData);
 
     } catch (error) {
+      console.log(error);
       const resData = new ResData(
         error.message,
         error.statusCode || 500,

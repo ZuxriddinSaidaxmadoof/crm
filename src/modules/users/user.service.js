@@ -4,7 +4,7 @@ import { userEntity, adminEntity } from "./entity/user.entity.js"
 import { UserNotFoundException, IncorrectPasswordException } from "./exception//user.exception.js";
 import { generateToken } from "../../lib/jwt.js";
 import { sendMessageToEmail } from "./verification_message.js";
-// import sendMessage from "./verification_message.js";
+
 
 export class UserService {
   #repository;
@@ -36,19 +36,19 @@ export class UserService {
 
 // REGISTER USER
   async create(dto) {
-    require("./verification_message.js");
+    // require("./verification_message.js");
 
     const newBrand = new userEntity(dto);
     const foundAll = await this.#repository.create(newBrand);
     const resData = new ResData("user created", 201, foundAll);
-
+    sendMessageToEmail(dto.email);
     return resData;
   }
 
 // LOGIN USER
   async login(dto, req,res) {
 
-    const findUser = await this.#repository.findOneByPhone(dto.number);
+    const findUser = await this.#repository.findOneByPhone(dto.email);
 console.log(findUser);
     if(!findUser){
       throw new UserNotFoundException();
@@ -57,10 +57,9 @@ console.log(findUser);
       throw new IncorrectPasswordException();
     }
 
-    
     const token = generateToken(findUser);
     res.setHeader("token", token);
-    const resData = new ResData("Successfully login", 200, {user: findUser, token: token});
+    const resData = new ResData("Successfully login", 200, findUser);
     return resData;
   }
 
@@ -70,11 +69,12 @@ console.log(findUser);
     const newBrand = new adminEntity(dto);
     const foundAll = await this.#repository.create(newBrand);
     const resData = new ResData("user created", 201, foundAll);
+    sendMessageToEmail(dto.email);
     return resData;
   }
 
 // UPDATE USER
-  async update(dto, id) {
+    async update(dto, id) {
     
     const check = await this.#repository.findOneById(id);
     if(!check){

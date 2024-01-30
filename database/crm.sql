@@ -35,7 +35,8 @@ CREATE TABLE student_courses(
     course_id int not null,
     constraint fk_student_id foreign key(student_id) references students(id),
     constraint fk_course_id foreign key(course_id) references courses(id) 
-)
+);
+
 
 // USERS - Veb saytdan foydalanovchilar, registratsiya qilganlar
 
@@ -94,73 +95,94 @@ CREATE TABLE courses (
 // ROOMS - Oquv markazdagi barcha xonalar
 
 CREATE TABLE rooms (
+    id BIGSERIAL,
     number int default null,
     name varchar(32) default null,
     floor int default null,
-    capacity int default null,
+    capacity int default null
 );
 
-/////////////////////////////////////////////////////////////END//////////////////////////////////////////////
 
-
+/////////////////////////////////////////////////////////////NEXT//////////////////////////////////////////////
 
 
 CREATE TABLE student_history(
- id int not null,
- name varchar(128),
- is_public boolean
+    id int not null,
+    first_name VARCHAR(150) NOT NULL,
+    last_name VARCHAR(150) NOT NULL,
+    number int [] DEFAULT NULL,
+    about VARCHAR(460) DEFAULT null,
+    file_id INT DEFAULT NULL,
+    created_at DATE DEFAULT now(),
+    status varchar(20)
 );
 
+/// TRIGGER FUNCTIONS
 
-CREATE FUNCTION fr_insert_group() 
+// INSERT FUNCTION
+
+CREATE FUNCTION fr_insert_student() 
    RETURNS TRIGGER 
    LANGUAGE PLPGSQL
 AS $$
 BEGIN
-   insert into brand_history(id, name)VALUES(new.id, new.name);
-END;
+    INSERT INTO student_history(id, first_name, last_name, number,about,file_id,created_at,status)
+    VALUES (new.id, new.first_name, new.last_name, new.number,new.about, new.file_id, new.created_at, 'insert');
+    return new;
+END
 $$;
 
-CREATE TRIGGER rg_brand 
+CREATE TRIGGER insert_trigger
+
    AFTER INSERT
-   ON brands
+   ON students
    FOR EACH ROW 
-       EXECUTE PROCEDURE fr_insert_group();
+EXECUTE PROCEDURE fr_insert_student();
 
 
-   insert into brands(name)VALUES('new one');
+// UPDATE TRIGGER
 
-DROP TRIGGER fr_insert_group;
-
-
-
-/////////////////////////////////////////////////////////////END//////////////////////////////////////////////
-
-
-
-CREATE TABLE brand_history(
- id int not null,
- name varchar(128),
- is_public boolean
-);
-
-
-CREATE FUNCTION fr_insert_group() 
+CREATE FUNCTION fr_update_student() 
    RETURNS TRIGGER 
    LANGUAGE PLPGSQL
 AS $$
 BEGIN
-   insert into brand_history(id, name)VALUES(new.id, new.name);
-END;
+    INSERT INTO student_history(id, first_name, last_name, number,about,file_id,created_at,status)
+    VALUES (new.id, new.first_name, new.last_name, new.number,new.about, new.file_id, new.created_at, 'updated to');
+    return new;
+END
 $$;
 
-CREATE TRIGGER rg_brand 
-   AFTER INSERT
-   ON brands
+CREATE TRIGGER update_trigger
+
+   AFTER UPDATE
+   ON students
    FOR EACH ROW 
-       EXECUTE PROCEDURE fr_insert_group();
+EXECUTE PROCEDURE fr_update_student();
 
 
-   insert into brands(name)VALUES('new one');
+// DELETE TRIGGER
 
-DROP TRIGGER fr_insert_group;
+CREATE FUNCTION fr_delete_student() 
+   RETURNS TRIGGER 
+   LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    INSERT INTO student_history(id, first_name, last_name, number,about,file_id,created_at,status)
+    VALUES (old.id, old.first_name, old.last_name, old.number,old.about, old.file_id, old.created_at, 'deleted');
+    return old;
+END
+$$;
+
+CREATE TRIGGER delete_trigger
+
+   AFTER DELETE
+   ON students
+   FOR EACH ROW 
+EXECUTE PROCEDURE fr_delete_student();
+
+
+
+
+
+
