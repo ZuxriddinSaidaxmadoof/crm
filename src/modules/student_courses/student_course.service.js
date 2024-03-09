@@ -33,18 +33,21 @@ export class UserService {
   async create(dto) {
     const user_repository = new StudentRepository();
     const course_repository = new CoursesRepository();
-    const newBrand = new BrandEntity(dto);
+    const newUserCourse = new BrandEntity(dto);
     
-    const findStudent = user_repository.findOneById(dto.studentId);
+    const findStudent = await user_repository.findOneById(dto.studentId);
+    console.log(findStudent);
     if(!findStudent){
+      console.log("find student");
       throw new UserNotFoundException();
     }
-    const findCourse = course_repository.findOneById(dto.courseId);
+    const findCourse =await course_repository.findOneById(dto.courseId);
     if(!findCourse){
+      console.log("find course");
       throw new CourseNotFoundException();
     }
-
-    const foundAll = await this.#repository.create(newBrand);
+console.log(newUserCourse);
+    const foundAll = await this.#repository.create(newUserCourse);
     const resData = new ResData("student-course created", 201, foundAll);
 
     return resData;

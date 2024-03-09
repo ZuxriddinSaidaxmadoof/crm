@@ -36,7 +36,7 @@ export class RoomController {
 
   async create(req, res) {
     try {
-      const dto = req.body[0];
+      const dto = req.body;
 
       const validate = RoomSchema.validate(dto);
 
@@ -56,7 +56,7 @@ export class RoomController {
 
   async update(req, res) {
     try {
-      const dto = req.body[0];
+      const dto = req.body;
       const id = req.params?.id;
 
       const validate = RoomSchema.validate(dto);

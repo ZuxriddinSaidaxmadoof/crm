@@ -11,7 +11,7 @@ export class UserRepository extends Postgres {
     return await this.fetch("select * from student_courses where id = $1", id);
   }
   async create(dto) {
-    return await this.fetch("INSERT INTO student_courses(student_id, course_id) VALUES($1, $2) RETURNING *;", dto.student_id, dto.course_id);
+    return await this.fetch("INSERT INTO  student_courses(student_id, course_id) VALUES($1, $2) RETURNING *;", dto.student_id, dto.course_id);
   }
   async update(dto, id) {
     return await this.fetch(`UPDATE student_courses SET student_id = $1, course_id = $2 WHERE id = $3 RETURNING *;`, dto.student_id, dto.course_id, id);

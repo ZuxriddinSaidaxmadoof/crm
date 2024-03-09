@@ -39,18 +39,16 @@ export class EmployersController {
 
   async create(req, res) {
     try {
-      const dto = req.body[0];
-
+      const dto = req.body;
+console.log("dto", dto);
       const validated = EmployersSchema.validate(dto);
 
-      if (validated.error) {
+      if (!validated.error) {
         throw new EmployersException(validated.error.message);
       }
-
       const { data: checkFile } = await this.#fileService.getOneById(
         dto.fileId
       );
-
       if (!checkFile) {
         throw new FileNotFoundException();
       }
@@ -59,15 +57,16 @@ export class EmployersController {
 
       res.status(resData.statusCode).json(resData);
     } catch (error) {
+      // console.log(error);
       const resData = new ResData(error.message, error.statusCode, null, error);
 
-      res.status(resData.statusCode).json(resData);
+      res.status(resData.statusCode || 500).json(resData);
     }
   }
 
   async update(req, res) {
     try {
-      const dto = req.body[0];
+      const dto = req.body;
       const Id = Number(req.params?.id);
 
       const data = {
@@ -100,7 +99,7 @@ export class EmployersController {
     } catch (error) {
       const resData = new ResData(error.message, error.statusCode, null, error);
 
-      res.status(resData.statusCode).json(resData);
+      res.status(resData.statusCode || 500).json(resData);
     }
   }
 
@@ -114,7 +113,7 @@ export class EmployersController {
     } catch (error) {
       const resData = new ResData(error.message, error.statusCode, null, error);
 
-      res.status(resData.statusCode).json(resData);
+      res.status(resData.statusCode || 500).json(resData);
     }
   }
 }

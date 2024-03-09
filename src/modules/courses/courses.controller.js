@@ -39,7 +39,7 @@ export class CoursesController {
 
   async create(req, res) {
     try {
-      const dto = req.body[0];
+      const dto = req.body;
 
       const validate = coursesSchema.validate(dto);
 
@@ -65,7 +65,7 @@ export class CoursesController {
 
   async update(req, res) {
     try {
-      const dto = req.body[0];
+      const dto = req.body;
       const id = req.params?.id;
 
       const data = {

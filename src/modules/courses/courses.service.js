@@ -34,7 +34,7 @@ export class CoursesService {
 
     const courses = await this.#repository.create(newCourses);
 
-    const resData = new ResData("courses saccses", 201, newCourses);
+    const resData = new ResData("courses saccses", 201, courses);
 
     return resData;
   }
